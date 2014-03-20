@@ -1,0 +1,47 @@
+package linefollow4;
+
+import lejos.nxt.*;
+
+
+public class lineWithCS {
+
+public static void main(String [] args) {
+int colorID = 6 ; // black
+int readColor = 0;
+//int power = 60; //degree per second
+
+//mode - 1=forward, 2=backward, 3=stop, 4=float
+
+final int forward = 1;
+final int stop = 3;
+final int power = 80;
+
+
+//Create  Color Sensor instance and bind it to  port 1
+ColorSensor cs=new ColorSensor(SensorPort.S1); 
+
+//set motors speed to 300
+//Motor.B.setSpeed(motorSpeed);
+//Motor.C.setSpeed(motorSpeed);
+
+readColor = cs.getColorID();
+
+
+// in case of white background turn right 
+while (Button.readButtons() == 0) {
+	MotorPort.B.controlMotor(0,stop);
+	MotorPort.C.controlMotor(power, forward);
+
+         readColor = cs.getColorID();
+
+
+
+//in case of black background turn left
+ while (readColor == colorID){
+	 MotorPort.C.controlMotor(0,stop);
+		MotorPort.B.controlMotor(power, forward);
+       readColor = cs.getColorID();
+       }
+     }
+  }
+}
